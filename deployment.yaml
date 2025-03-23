@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: demo1
+  name: demo1  # Fixed the 'name' field
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: demo1
+    spec:
+      containers:
+      - image: harithamurugan/demo1:v1
+        name: demo1
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo1
+spec:
+  type: NodePort  # Change from ClusterIP to NodePort
+  selector:
+    app: demo1
+  ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8005
+      nodePort: 30008  # Explicitly setting NodePort
+
